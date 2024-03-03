@@ -1,6 +1,6 @@
 import pytest
 
-from utils.class_сategory import Category
+from class_dir.class_сategory import Category
 
 
 @pytest.fixture
