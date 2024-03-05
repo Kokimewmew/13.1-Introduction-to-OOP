@@ -1,3 +1,6 @@
+from class_dir.class_product import product_1, product_2, product_3, Product
+
+
 class Category:
     title: str
     description: str
@@ -12,23 +15,22 @@ class Category:
         Category.the_total_number_of_categories += 1
         Category.uniq_products += len(self.__products)
 
-    def add_product(self, product):
-        self.__products.append(product)
-
     @property
-    def display_products(self):
+    def products(self) -> str:
+        result = ''
         for product in self.__products:
-            print(f'{product["name"]}, {product["price"]} руб. Остаток: {product["quantity"]}  шт.')
+            result += f'{product.title}, {product.price} руб. Остаток: {product.quantity} шт.\n'
+
+        return result
+
+    def add_product(self, s):
+        self.__products.append(s)
 
 
-sss = Category("Смартфоны", "Смартфоны, как средство", [
-    {"name": "Samsung Galaxy C23 Ultra", "description": "256GB, Серый цвет, 200MP камера", "price": 180000.0,
-     "quantity": 5},
-    {"name": "Iphone 15", "description": "512GB, Gray space", "price": 210000.0, "quantity": 8},
-    {"name": "Xiaomi Redmi Note 11", "description": "1024GB, Синий", "price": 31000.0, "quantity": 14}
-]
-               )
+category_smart = Category("Смартфоны", "Смартфоны, как средство", [product_1, product_2, product_3])
+print(category_smart.products)
 
-sss.add_product({"name": "Xiaomi Redmi Note 12", "description": "1024GB, красный", "price": 43000.0, "quantity": 12})
+new_smart = Product("OnePlus 9 Pro","256GB, Nebula Blue", 75000.0, 0)
+category_smart.add_product(new_smart)
 
-sss.display_products
+print(category_smart.products)
