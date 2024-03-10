@@ -3,27 +3,29 @@ class Product:
     description: str
     price: float
     quantity: int
+    count_product = 0  # Счетчик общего количества продуктов
 
-    def __init__(self, title, description, price, quantity):
-        self.__title = title
-        self.__description = description
+    def __init__(self, name, description, price, quantity):
+        self.name = name
+        self.description = description
         self.__price = price
-        self.__quantity = quantity
+        self.quantity = quantity
+        Product.count_product += 1
+
+    @classmethod
+    def launch_product(cls, new_product):
+        '''Класс-метод по добавлению новых товаров'''
+        return cls(**new_product)
 
     @property
     def price(self):
+        '''геттер - установка цены'''
         return self.__price
-    @property
-    def title(self):
-        return self.__title
-
-    @property
-    def quantity(self):
-        return self.__quantity
 
     @price.setter
     def price(self, value):
-        if 0 >= value:
+        '''сеттер - условие, если цена <= 0, то вывод сообщения, иначе вывод заданной цены'''
+        if value <= 0:
             print("цена введена некорректная")
         else:
             if self.__price > value:
@@ -35,30 +37,33 @@ class Product:
             else:
                 self.__price = value
 
-    @classmethod
-    def add_products(cls, new_product):
-        title, description, price, quantity = new_product
+    def __repr__(self):
+        return f'{self.name}, {self.description}, {self.__price}, {self.quantity}'
 
-        return cls(title, description, price, quantity)
+    def __str__(self):
+        '''Добавлено строковое отображение'''
+        return f'Название продукта: {self.name}, {self.__price} руб. Остаток: {self.quantity} шт.'
 
-
-product_1 = Product("Samsung Galaxy C23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
-
-product_2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
-
-product_3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+    def __add__(self, other):
+        ''' Метод сложения объектов (сложением сумм, умноженных на количество на складе).'''
+        return (self.price * self.quantity) + (other.price * other.quantity)
 
 
-print(product_1.price)
+if __name__ == '__main__':
+    # Создание словаря для дальнейшего добавления в экземпляры класса
+    new_product_3 = {
+        'name': 'Nokia',
+        'description': 'smth',
+        'price': 1000,
+        'quantity': 10
+    }
 
+    product_3 = Product.launch_product(new_product_3)  # Добавление нового продукта
+    print(product_3)  # Вывод добавленного словаря
 
-new_product = ["Iphone 15", "512GB, Gray space", 210000.0, 8]
+    product_1 = Product('Samsung', 'smth', 90_000, 2)
+    print(product_1)
+    product_2 = Product('iPhone', 'smth', 100_000, 3)  # Экземпляр класса Product
 
-product_4 = Product.add_products(new_product)
-
-print(product_2.price)
-
-product_2.price = float(5)
-
-print(product_2.price)
+    print(f'Метод add для 2х экземпляров класса Product: {product_1 + product_2}')
 
