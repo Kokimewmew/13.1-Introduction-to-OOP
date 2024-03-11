@@ -1,42 +1,54 @@
 import pytest
 from class_dir.class_product import Product
-from class_dir.class_сategory import Category
 
 
-@pytest.fixture()
-def category_phones():
-    '''тестируем класс Category'''
-    ct1 = Category('Phones', 'mobile phones')
-    ct2 = Category('Utensil', 'Kitchen utensil')
-    return ct1, ct2
-
-def test_init(category_phones):
-    '''Тестируем метод init'''
-    ct1, ct2 = category_phones
-    assert ct1.name == 'Phones'
-    assert ct1.description == 'mobile phones'
-    assert ct1.goods == []
-    assert ct2.name == 'Utensil'
-    assert ct2.description == 'Kitchen utensil'
-    assert ct2.goods == []
-    assert ct2.count_category == 2
+@pytest.fixture
+def new_product():
+    return {
+        "name": "Coffee",
+        "description": "Delicious coffee beans",
+        "price": 10.0,
+        "quantity": 100
+    }
 
 
-@pytest.fixture()
-def product_iphone():
-    '''тест класса Product'''
-    pr1 = Product('iPhone', 'the most expensive phone', 110_000, 3)
-    pr2 = Product('Nokia', 'the oldest phone', 1_000, 1)
-    return pr1, pr2
+def test_product_creation(new_product):
+    product = Product(**new_product)
+    assert product.name == "Coffee"
+    assert product.description == "Delicious coffee beans"
+    assert product.price == 10.0
+    assert product.quantity == 100
 
-def test_init_pr(product_iphone):
-    '''инициализируем обект класса через тест'''
-    pr1, pr2 = product_iphone
-    assert pr1.name == 'iPhone'
-    assert pr1.description == 'the most expensive phone'
-    assert pr1.price == 110_000
-    assert pr1.quantity == 3
-    assert pr2.name == 'Nokia'
-    assert pr2.description == 'the oldest phone'
-    assert pr2.price == 1_000
-    assert pr2.quantity == 1
+
+def test_price_setter(new_product):
+    product = Product(**new_product)
+    product.price = 12.0
+    assert product.price == 12.0
+
+
+def test_negative_price_setter(new_product, capsys):
+    product = Product(**new_product)
+    product.price = -5.0
+    captured = capsys.readouterr()
+    assert "цена введена некорректная" in captured.out
+
+
+def test_price_lower_confirm(new_product, capsys, monkeypatch):
+    product = Product(**new_product)
+    monkeypatch.setattr('builtins.input', lambda _: "y")
+    product.price = 8.0
+    assert product.price == 8.0
+
+
+def test_price_lower_cancel(new_product, capsys, monkeypatch):
+    product = Product(**new_product)
+    monkeypatch.setattr('builtins.input', lambda _: "n")
+    product.price = 8.0
+    assert product.price == 10.0
+
+
+def test_addition(new_product):
+    product1 = Product(**new_product)
+    product2 = Product(name="Tea", description="Refreshing tea leaves", price=5.0, quantity=50)
+    total_value = product1 + product2
+    assert total_value == 1250.0  # (10.0 * 100) + (5.0 * 50) = 1000 + 500 = 1250
