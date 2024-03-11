@@ -59,7 +59,7 @@ class Category:
 
     def __str__(self):
         '''Добавлено строковое отображение'''
-        return f'Название категории: {self.name}, количество продуктов: {Category.unique_product} шт.'
+        return f'Название категории: {self.name}, количество продуктов: {self.__len__()} шт.'
 
 
 if __name__ == '__main__':
