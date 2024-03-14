@@ -38,6 +38,7 @@ class Product:
                 self.__price = value
 
     def __repr__(self):
+        '''Метод отображения экземпляра категории'''
         return f'{self.name}, {self.description}, {self.__price}, {self.quantity}'
 
     def __str__(self):

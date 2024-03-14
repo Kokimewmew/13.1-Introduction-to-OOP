@@ -36,6 +36,7 @@ def test_append_goods(new_category, new_good):
 
 
 def test_invalid_append_goods(new_category):
+    """Тест на ошибку добавления объекта не являющийся Product или его наследником"""
     class Something:
         pass
 
