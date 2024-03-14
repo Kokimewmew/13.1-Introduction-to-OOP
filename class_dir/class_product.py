@@ -46,7 +46,29 @@ class Product:
 
     def __add__(self, other):
         ''' Метод сложения объектов (сложением сумм, умноженных на количество на складе).'''
-        return (self.price * self.quantity) + (other.price * other.quantity)
+        if self.__class__.__name__ == other.__class__.__name__:
+            return (self.price * self.quantity) + (other.price * other.quantity)
+        else:
+            raise TypeError
+
+
+class Smartphone(Product):
+
+    def __init__(self, name, description, price, quantity, productivity, model, memory, color):
+        super().__init__(name, description, price, quantity)
+        self.productivity = productivity
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class Lawngrass(Product):
+
+    def __init__(self, name, description, price, quantity, country_of_origin, germination_period, color):
+        super().__init__(name, description, price, quantity)
+        self.country_of_origin = country_of_origin
+        self.germination_period = germination_period
+        self.color = color
 
 
 if __name__ == '__main__':
@@ -65,5 +87,8 @@ if __name__ == '__main__':
     print(product_1)
     product_2 = Product('iPhone', 'smth', 100_000, 3)  # Экземпляр класса Product
 
+    lawngrass_1 = Lawngrass("трава", "газонная", 100, 3, "Russia", "5 лет", "зеленая")
+
     print(f'Метод add для 2х экземпляров класса Product: {product_1 + product_2}')
 
+    print(f'Метод add для 2х экземпляров класса Product: {product_1 + lawngrass_1}')
