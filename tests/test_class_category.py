@@ -30,6 +30,18 @@ def test_append_goods(new_category, new_good):
     new_category.append_goods(product_2)
     assert new_category.goods == [['Samsung', 'smth', 90_000, 2], ['iPhone', 'smth', 100_000, 3]]
 
+    product_3 = Product('iPhone', 'smth', 100_000, 8)
+    new_category.append_goods(product_3)
+    assert new_category.goods == [['Samsung', 'smth', 90_000, 2], ['iPhone', 'smth', 100_000, 11]]
+
+
+def test_invalid_append_goods(new_category):
+    class Something:
+        pass
+
+    something = Something()
+    assert new_category.append_goods(something) is None
+
 
 def test_counting_goods(new_category, new_good):
     """Тест на подсчет общего количества товаров"""
@@ -68,5 +80,5 @@ def test_repr(new_category, new_good):
     assert repr(new_category) == "Телефоны, мобильные телефоны, [['Samsung', 'smth', 90000, 2]]"
     product_2 = Product('iPhone', 'smth', 100_000, 3)
     new_category.append_goods(product_2)
-    assert repr(new_category) == "Телефоны, мобильные телефоны, [['Samsung', 'smth', 90000, 2], ['iPhone', 'smth', 100000, 3]]"
-
+    assert repr(
+        new_category) == "Телефоны, мобильные телефоны, [['Samsung', 'smth', 90000, 2], ['iPhone', 'smth', 100000, 3]]"

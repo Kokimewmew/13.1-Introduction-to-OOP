@@ -26,13 +26,16 @@ class Category:
          Метод добавления товаров в список
         также данный метод считает итоговое количество всех продуктов в сумме
         '''
-        for item in self.__goods:
-            if item[0] == good.name:  # Проверяем наименование товара есть ли в списке продуктов
-                item[3] += good.quantity  # Обновляем количество товаров в продукте который уже есть
-                break
+        if isinstance(good, Product):
+            for item in self.__goods:
+                if item[0] == good.name:  # Проверяем наименование товара есть ли в списке продуктов
+                    item[3] += good.quantity  # Обновляем количество товаров в продукте который уже есть
+                    break
+            else:
+                self.__goods.append([good.name, good.description, good.price, good.quantity])  # Добавляем новый продукт
+                Category.unique_product += 1
         else:
-            self.__goods.append([good.name, good.description, good.price, good.quantity])  # Добавляем новый продукт
-            Category.unique_product += 1
+            print("Нельзя добавить объект отличный от класса Product или его наследников.")
 
     @property
     def counting_goods(self):
@@ -41,7 +44,6 @@ class Category:
             count += i[3]
 
         return count
-
 
     def __repr__(self):
         '''Метод отображения экземпляра категории'''
@@ -59,7 +61,6 @@ class Category:
         '''Вывод количества продуктов на складе'''
         return len(self.__goods)
 
-
     def __str__(self):
         '''Добавлено строковое отображение'''
         return f'Название категории: {self.name}, количество продуктов: {self.__len__()} шт.'
@@ -69,8 +70,10 @@ if __name__ == '__main__':
     category_1 = Category('Телефоны', 'мобильные телефоны')  # Экземпляр класса Category
     product_1 = Product('Samsung', 'smth', 90_000, 2)  # Экземпляр класса Product
     product_2 = Product('iPhone', 'smth', 100_000, 3)  # Экземпляр класса Product
+    print(category_1.goods)
 
     category_1.append_goods(product_1)  # Добавление продукта в приватный список товаров
+    print(category_1.goods)
     category_1.append_goods(product_2)  # Добавление продукта в приватный список товаров
     print(category_1.goods)
 
@@ -83,5 +86,11 @@ if __name__ == '__main__':
     print(str(category_1))  # Отображение строкового представления
 
     print(f'Вывод  общего количества продуктов категории: {category_1.counting_goods}')
+
+    class Something:
+        pass
+
+    something = Something()
+    category_1.append_goods(something)
 
 

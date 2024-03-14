@@ -11,10 +11,10 @@ class CategoryIter:
         return self
 
     def __next__(self):
-        if self.index >= len(self.category.display):
+        if self.index >= len(self.category.goods):
             raise StopIteration
         else:
-            product = self.category.display[self.index]
+            product = self.category.goods[self.index]
             self.index += 1
             return product
 
