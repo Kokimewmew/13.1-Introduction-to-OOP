@@ -54,7 +54,7 @@ def test_repr(new_product):
     """Тест на отображения экземпляра продукта"""
     product = Product(**new_product)
 
-    assert repr(product) == "Coffee, Delicious coffee beans, 10.0, 100"
+    assert repr(product) == "Создание нового экземпляра продукта - Product('Coffee', 'Delicious coffee beans', 10.0, 100)"
 
 
 def test_str(new_product):
