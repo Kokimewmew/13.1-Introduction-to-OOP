@@ -36,11 +36,13 @@ def test_append_goods(new_category, new_good):
 
 
 def test_invalid_append_goods(new_category):
+    """Тест на ошибку добавления объекта не являющийся Product или его наследником"""
     class Something:
         pass
 
     something = Something()
-    assert new_category.append_goods(something) is None
+    assert new_category.append_goods(something) == ("Нельзя добавить объект отличный"
+                                                    " от класса Product или его наследников.")
 
 
 def test_counting_goods(new_category, new_good):

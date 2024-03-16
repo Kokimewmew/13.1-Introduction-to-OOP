@@ -27,6 +27,7 @@ def test_price_setter(new_product):
 
 
 def test_negative_price_setter(new_product, capsys):
+    """Тест на некорректное изменение цены"""
     product = Product(**new_product)
     product.price = -5.0
     captured = capsys.readouterr()
@@ -34,6 +35,7 @@ def test_negative_price_setter(new_product, capsys):
 
 
 def test_price_lower_confirm(new_product, capsys, monkeypatch):
+    """Тест на изменение цены"""
     product = Product(**new_product)
     monkeypatch.setattr('builtins.input', lambda _: "y")
     product.price = 8.0
@@ -41,6 +43,7 @@ def test_price_lower_confirm(new_product, capsys, monkeypatch):
 
 
 def test_price_lower_cancel(new_product, capsys, monkeypatch):
+    """Тест на отказ изменения цены"""
     product = Product(**new_product)
     monkeypatch.setattr('builtins.input', lambda _: "n")
     product.price = 8.0
@@ -51,7 +54,7 @@ def test_repr(new_product):
     """Тест на отображения экземпляра продукта"""
     product = Product(**new_product)
 
-    assert repr(product) == "Coffee, Delicious coffee beans, 10.0, 100"
+    assert repr(product) == "Создание нового экземпляра продукта - Product('Coffee', 'Delicious coffee beans', 10.0, 100)"
 
 
 def test_str(new_product):
@@ -70,6 +73,7 @@ def test_launch_product(new_product):
 
 
 def test_addition(new_product):
+    """Тест на сложение __add__ 2 экземпляров"""
     product1 = Product(**new_product)
     product2 = Product(name="Tea", description="Refreshing tea leaves", price=5.0, quantity=50)
     total_value = product1 + product2
@@ -77,6 +81,7 @@ def test_addition(new_product):
 
 
 def test_invalid_addition(new_product):
+    """Тест на ошибку сложения __add__ 2 экземпляров отличных классов """
     product1 = Product(**new_product)
     lawngrass_1 = Lawngrass("трава", "газонная", 100, 3,
                             "Russia", "5 лет", "зеленая")

@@ -1,4 +1,28 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class AbstractProduct(ABC):
+    @abstractmethod
+    def launch_product(cls, new_product):
+        '''Класс-метод по добавлению новых товаров'''
+
+
+class MixinLog:
+    """Класс миксин для вывода __repr__"""
+
+    def __init__(self, *args, **kwargs):
+        print(repr(self))
+
+    def __repr__(self):
+        """вывод __repr__"""
+        list_attr = []
+        for i in self.__dict__.items():
+            list_attr.append(i[1])
+
+        return f'Создание нового экземпляра продукта - {self.__class__.__name__}{tuple(list_attr)}'
+
+
+class Product(MixinLog, AbstractProduct):
     title: str
     description: str
     price: float
@@ -11,6 +35,7 @@ class Product:
         self.__price = price
         self.quantity = quantity
         Product.count_product += 1
+        super().__init__()
 
     @classmethod
     def launch_product(cls, new_product):
@@ -37,9 +62,6 @@ class Product:
             else:
                 self.__price = value
 
-    def __repr__(self):
-        return f'{self.name}, {self.description}, {self.__price}, {self.quantity}'
-
     def __str__(self):
         '''Добавлено строковое отображение'''
         return f'Название продукта: {self.name}, {self.__price} руб. Остаток: {self.quantity} шт.'
@@ -53,7 +75,6 @@ class Product:
 
 
 class Smartphone(Product):
-
     def __init__(self, name, description, price, quantity, productivity, model, memory, color):
         super().__init__(name, description, price, quantity)
         self.productivity = productivity
@@ -91,4 +112,4 @@ if __name__ == '__main__':
 
     print(f'Метод add для 2х экземпляров класса Product: {product_1 + product_2}')
 
-    print(f'Метод add для 2х экземпляров класса Product: {product_1 + lawngrass_1}')
+    # print(f'Метод add для 2х экземпляров класса Product: {product_1 + lawngrass_1}')

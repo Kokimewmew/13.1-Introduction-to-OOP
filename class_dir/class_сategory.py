@@ -1,7 +1,14 @@
 from class_dir.class_product import Product
+from abc import ABC, abstractmethod
 
 
-class Category:
+class AbstractCategory(ABC):
+    @abstractmethod
+    def __init__(self):
+        '''Абстрактный метод инициализации'''
+
+
+class Category(AbstractCategory):
     name: str
     description: str
     goods: list
@@ -35,7 +42,7 @@ class Category:
                 self.__goods.append([good.name, good.description, good.price, good.quantity])  # Добавляем новый продукт
                 Category.unique_product += 1
         else:
-            print("Нельзя добавить объект отличный от класса Product или его наследников.")
+            return f"Нельзя добавить объект отличный от класса Product или его наследников."
 
     @property
     def counting_goods(self):
