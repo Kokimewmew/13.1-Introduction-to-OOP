@@ -37,6 +37,7 @@ def test_append_goods(new_category, new_good):
 
 def test_invalid_append_goods(new_category):
     """Тест на ошибку добавления объекта не являющийся Product или его наследником"""
+
     class Something:
         pass
 
@@ -84,3 +85,12 @@ def test_repr(new_category, new_good):
     new_category.append_goods(product_2)
     assert repr(
         new_category) == "Телефоны, мобильные телефоны, [['Samsung', 'smth', 90000, 2], ['iPhone', 'smth', 100000, 3]]"
+
+
+def test_average_price(new_category, new_good):
+    """Тест на среднюю стоимость товаров"""
+    assert new_category.average_price() == 0
+    new_category.append_goods(new_good)
+    product_2 = Product('iPhone', 'smth', 100_000, 9)
+    new_category.append_goods(product_2)
+    assert new_category.average_price() == 98181

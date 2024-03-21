@@ -64,6 +64,17 @@ class Category(AbstractCategory):
             result += f'{good[0]}, {good[2]} руб. Остаток: {good[3]} шт.\n'
         return result
 
+    def average_price(self):
+        """Метод на нахождение средней стоимости товаров"""
+        result = 0
+        for good in self.__goods:
+            result += good[2] * good[3]
+        try:
+            result = int(result / self.counting_goods)
+        except ZeroDivisionError:
+            print("Деление на 0 количество товаров")
+        return result
+
     def __len__(self):
         '''Вывод количества продуктов на складе'''
         return len(self.__goods)
@@ -93,11 +104,5 @@ if __name__ == '__main__':
     print(str(category_1))  # Отображение строкового представления
 
     print(f'Вывод  общего количества продуктов категории: {category_1.counting_goods}')
-
-    class Something:
-        pass
-
-    something = Something()
-    category_1.append_goods(something)
-
-
+    print(category_1.goods)
+    print(category_1.average_price())

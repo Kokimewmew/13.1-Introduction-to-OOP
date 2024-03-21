@@ -20,7 +20,14 @@ def test_product_creation(new_product):
     assert product.quantity == 100
 
 
+def test_zero_quantity():
+    """Тест на создание экземпляра с 0 количеством"""
+    with pytest.raises(ValueError):
+        product = Product('iPhone', 'smth', 100_000, 0)
+
+
 def test_price_setter(new_product):
+    """Тест на изменение цены выше предыдущей"""
     product = Product(**new_product)
     product.price = 12.0
     assert product.price == 12.0
@@ -54,7 +61,8 @@ def test_repr(new_product):
     """Тест на отображения экземпляра продукта"""
     product = Product(**new_product)
 
-    assert repr(product) == "Создание нового экземпляра продукта - Product('Coffee', 'Delicious coffee beans', 10.0, 100)"
+    assert repr(
+        product) == "Создание нового экземпляра продукта - Product('Coffee', 'Delicious coffee beans', 10.0, 100)"
 
 
 def test_str(new_product):
