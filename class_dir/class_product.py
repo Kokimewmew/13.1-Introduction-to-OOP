@@ -23,7 +23,7 @@ class MixinLog:
 
 
 class Product(MixinLog, AbstractProduct):
-    title: str
+    name: str
     description: str
     price: float
     quantity: int
@@ -33,8 +33,6 @@ class Product(MixinLog, AbstractProduct):
         self.name = name
         self.description = description
         self.__price = price
-        if quantity <= 0:
-            raise ValueError('Товар с нулевым количеством не может быть добавлен')
         self.quantity = quantity
         Product.count_product += 1
         super().__init__()
@@ -106,7 +104,7 @@ if __name__ == '__main__':
     product_3 = Product.launch_product(new_product_3)  # Добавление нового продукта
     print(product_3)  # Вывод добавленного словаря
 
-    product_1 = Product('Samsung', 'smth', 90_000, 2)
+    product_1 = Product('Samsung', 'smth', 90_000, 0)
     print(product_1)
     product_2 = Product('iPhone', 'smth', 100_000, 3)  # Экземпляр класса Product
 
