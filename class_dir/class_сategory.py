@@ -35,9 +35,9 @@ class Category(AbstractCategory):
         также данный метод считает итоговое количество всех продуктов в сумме
         '''
         if isinstance(good, Product):
+            if good.quantity <= 0:
+                raise ValueError('Товар с нулевым количеством не может быть добавлен')
             for item in self.__goods:
-                if item.quantity <= 0:
-                    raise ValueError('Товар с нулевым количеством не может быть добавлен')
                 if item.name == good.name:  # Проверяем наименование товара есть ли в списке продуктов
                     item.quantity += good.quantity  # Обновляем количество товаров в продукте который уже есть
                     break
